@@ -1,4 +1,5 @@
 import * as three from "three";
+import {CSS2DObject} from "2dRenderer";
 
 export default class Board{
     constructor(scene, width, height, length){
@@ -18,6 +19,8 @@ export default class Board{
         this.board = new three.Group();
         this.board.add(board);
         this.board.add(line);
+
+        this.label = this.createLabel(board);
 
         scene.add(this.board);
     }
@@ -43,5 +46,20 @@ export default class Board{
 
     toRadians(n){
         return n*(Math.PI/180);
+    }
+
+    createLabel(board){
+        const labelElem = document.createElement("div");
+        labelElem.classList.add("label");
+        labelElem.textContent = `${this.type}x${this.length} in.`;
+        labelElem.style.backgroundColor = "transparent";
+
+        const label = new CSS2DObject(labelElem);
+        label.position.set(0, 0, 0);
+        label.center.set(0, 1);
+        board.add(label);
+        label.layers.set(0);
+
+        return label;
     }
 }

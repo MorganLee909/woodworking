@@ -1,5 +1,6 @@
 import * as three from "three";
 import {OrbitControls} from "orbitControls";
+import {CSS2DRenderer} from "2dRenderer";
 
 import Board from "board";
 
@@ -7,12 +8,20 @@ const canvas = document.getElementById("canvas");
 const renderer = new three.WebGLRenderer({antialias: true, canvas});
 
 const camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-camera.position.z = 200;
+camera.position.z = 100;
 camera.position.y = 1.8;
+
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = "absolute";
+labelRenderer.domElement.style.top = "0px";
+labelRenderer.domElement.style.pointerEvents = "none";
+document.body.appendChild(labelRenderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
 const scene = new three.Scene();
+export scene;
 
 const light = new three.DirectionalLight(0xffffff, 3);
 scene.add(light);
@@ -38,6 +47,7 @@ function render(time){
     }
 
     renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
     requestAnimationFrame(render);
 }
 
@@ -110,6 +120,7 @@ function computeBoards(boards){
     let boardsObj = {
         totalSurfaceArea: 0
     };
+    const boardList = document.createElement("div");
     let allItems = "";
     for(let i = 0; i < boards.length; i++){
         if(boardsObj[boards[i].type]){
@@ -122,9 +133,16 @@ function computeBoards(boards){
             }
         }
         boardsObj.totalSurfaceArea += boards[i].surfaceArea();
-        allItems += `${boards[i].type}x${boards[i].length}\n`;
+
+        const p = document.createElement("p");
+        p.textContent = `${boards[i].type}x${boards[i].length}`;
+        boardList.appendChild(p);
     }
 
-    console.log(boardsObj);
-    console.log(allItems);
+    const specs = document.getElementById("specs");
+    specs.appendChild(boardList);
+
+    const thing = document.createElement("p");
+    thing.textContent = boardsObj;
+    specs.appendChild(thing);
 }
