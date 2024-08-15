@@ -2,8 +2,6 @@ import * as three from "three";
 import {OrbitControls} from "orbitControls";
 import {CSS2DRenderer} from "2dRenderer";
 
-import Board from "board";
-
 const canvas = document.getElementById("canvas");
 const renderer = new three.WebGLRenderer({antialias: true, canvas});
 

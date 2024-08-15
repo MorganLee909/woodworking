@@ -2,7 +2,7 @@ import * as three from "three";
 import {CSS2DObject} from "2dRenderer";
 
 export default class Board{
-    constructor(scene, width, height, length){
+    constructor(scene, width, height, length, boardList){
         this.scene = scene;
         this.width = width;
         this.height = height;
@@ -23,6 +23,8 @@ export default class Board{
         this.label = this.createLabel(board);
 
         scene.add(this.board);
+
+        if(boardList) boardList.push(this);
     }
 
     translate(x, y, z){
