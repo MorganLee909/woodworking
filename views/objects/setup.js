@@ -47,8 +47,55 @@ function render(time){
 renderer.render(scene, camera);
 requestAnimationFrame(render);
 
-export function compute(data){
-    console.log(data);
+export function compute(boards){
+    console.time("thing");
+    let specs = document.getElementById("specs");
+    let data = {};
+    for(let i = 0; i < boards.length; i++){
+        if(data[boards[i].type]){
+            data[boards[i].type].totalLength += boards[i].length;
+            data[boards[i].type].lengths.push(boards[i].length);
+        }else{
+            data[boards[i].type] = {
+                totalLength: boards[i].length,
+                lengths: [boards[i].length]
+            }
+        }
+    }
+
+    let keys = Object.keys(data);
+    //Create board list
+    let boardList = [["", ""]];
+    for(let i = 0; i < keys.length; i++){
+        boardList.push([keys[i], ""]);
+        for(let j = 0; j < data[keys[i]].lengths.length; j++){
+            boardList.push(["", `${data[keys[i]].lengths[j]}"`]);
+        }
+    }
+
+    const boardListTable = createTable(boardList);
+    specs.appendChild(boardListTable);
+}
+
+function createTable(data){
+    const table = document.createElement("table");
+
+    const header = document.createElement("tr");
+    table.appendChild(header);
+
+    for(let i = 0; i < data.length; i++){
+        const rowType = i === 0 ? "th" : "tr";
+        const row = document.createElement(rowType);
+        table.appendChild(row);
+
+        for(let j = 0; j < data[i].length; j++){
+            const td = document.createElement("td");
+            td.textContent = data[i][j];
+            row.appendChild(td);
+        }
+    }
+
+    return table;
 }
 
 export const Group = three.Group;

@@ -1,9 +1,6 @@
 import {scene, Group, compute} from "setup";
 import Board from "board";
 
-const container = new Group();
-scene.add(container);
-
 const boards = [];
 
 createLegs();
