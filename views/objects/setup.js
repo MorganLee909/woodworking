@@ -51,7 +51,9 @@ export function compute(boards){
     console.time("thing");
     let specs = document.getElementById("specs");
     let data = {};
+    let surfaceArea = 0;
     for(let i = 0; i < boards.length; i++){
+        surfaceArea += boards[i].surfaceArea();
         if(data[boards[i].type]){
             data[boards[i].type].totalLength += boards[i].length;
             data[boards[i].type].lengths.push(boards[i].length);
@@ -75,6 +77,7 @@ export function compute(boards){
 
     const boardListTable = createTable(boardList);
     specs.appendChild(boardListTable);
+    console.log(surfaceArea);
 }
 
 function createTable(data){

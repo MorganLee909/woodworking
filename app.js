@@ -10,6 +10,9 @@ app.get("/", (req, res)=>res.sendFile(`${views}/index.html`));
 app.get("/workbench", (req, res)=>res.sendFile(`${views}/workbench/index.html`));
 app.get("/workbench.js", (req, res)=>res.sendFile(`${views}/workbench/workbench.js`));
 
+app.get("/patio-table", (req, res)=>res.sendFile(`${views}/patioTable/patioTable.html`));
+app.get("/patio-table.js", (req, res)=>res.sendFile(`${views}/patioTable/patioTable2.js`))
+
 app.get("/three.js", (req, res)=>res.sendFile(`${__dirname}/threejs/three.min.js`));
 app.get("/orbit-controls.js", (req, res)=>res.sendFile(`${__dirname}/threejs/orbitControls.min.js`));
 app.get("/css-2d-renderer.js", (req, res)=>res.sendFile(`${__dirname}/threejs/CSS2DRenderer.min.js`));
