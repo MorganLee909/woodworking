@@ -19,8 +19,8 @@ app.get("/css-2d-renderer.js", (req, res)=>res.sendFile(`${__dirname}/threejs/CS
 
 app.get("/image/workbench.webp", (req, res)=>res.sendFile(`${views}/image/workbench.webp`));
 
-app.get("/objects/board.js", (req, res)=>res.sendFile(`${views}/objects/board.js`));
 app.get("/objects/setup.js", (req, res)=>res.sendFile(`${views}/objects/setup.js`));
+app.get("/objects/board.js", (req, res)=>res.sendFile(`${views}/objects/Board.js`));
 
 if(process.env.NODE_ENV === "production"){
     module.exports = app;
