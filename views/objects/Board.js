@@ -30,7 +30,7 @@ export default class Board{
         this.board.add(new three.Mesh(geometry, material));
 
         scene.add(this.board);
-        boardList.push(this.board);
+        if(boardList) boardList.push(this);
     }
 
     translate(x, y, z){
@@ -104,14 +104,14 @@ export default class Board{
         }
 
         return [
-            [w, h, l1],
-            [w, -h, l1],
+            [w, h, l],
+            [w, -h, l],
             [-w, -h, l],
-            [-w, h, l3],
-            [w, h, -l2],
-            [w, -h, -l2],
+            [-w, h, l],
+            [w, h, -l],
+            [w, -h, -l],
             [-w, -h, -l],
-            [-w, h, -l3],
+            [-w, h, -l],
         ];
     }
 
