@@ -1,8 +1,15 @@
 import * as three from "three";
 import {CSS2DObject} from "2dRenderer";
 
+/*
+ * angleData = [
+ *      side ("width" or "height")
+ *      angle in degrees
+ *      bothSides (boolean)
+ * ]
+ */
 export default class Board{
-    constructor(scene, width, height, length, boardList, degree=90, angleSide="width"){
+    constructor(scene, width, height, length, boardList, angleData){
         this.scene = scene;
         this.width = width;
         this.height = height;
@@ -10,13 +17,14 @@ export default class Board{
         this.type = `${width}x${height}`;
         this.board = new three.Group();
 
-        const faces = new Float32Array(this.faces(this.vertices(width/2, height/2, length/2)));
+        const vertices = this.vertices(width/2, height/2, length/2, angleData);
+        const faces = new Float32Array(this.faces(vertices));
         const geometry = new three.BufferGeometry();
         geometry.setDrawRange(0, Infinity);
         geometry.setAttribute("position", new three.BufferAttribute(faces, 3));
         const material = new three.MeshBasicMaterial({color: 0x7a4300});
         material.side = three.DoubleSide;
-        this.drawEdges(this.vertices(width/2, height/2, length/2), this.edges(), this.board);
+        this.drawEdges(vertices, this.edges(), this.board);
         this.createLabel();
 
         this.board.add(new three.Mesh(geometry, material));
@@ -62,16 +70,48 @@ export default class Board{
         return label;
     }
 
-    vertices(w, h, l){
+    vertices(w, h, l, a){
+        if(a && a.length === 3){
+            if(a[0] === "width"){
+                const shortened = (w * 2) / (Math.tan((a[1] * Math.PI) / 180));
+                const l1 = l - shortened;
+                const l2 = a[2] ? l - shortened : l;
+                return [
+                    [w, h, l1],
+                    [w, -h, l1],
+                    [-w, -h, l],
+                    [-w, h, l],
+                    [w, h, -l2],
+                    [w, -h, -l2],
+                    [-w, -h, -l],
+                    [-w, h, -l],
+                ];
+            }else if(a[0] === "height"){
+                const shortened = (h * 2) / (Math.tan((a[1] * Math.PI) / 180));
+                const l1 = l - shortened;
+                const l2 = l - a[2] ? l - shortened : l;
+                return [
+                    [w, h, l1],
+                    [w, -h, l],
+                    [-w, -h, l],
+                    [-w, h, l1],
+                    [w, h, -l2],
+                    [w, -h, -l],
+                    [-w, -h, -l],
+                    [-w, h, -l2],
+                ];
+            }
+        }
+
         return [
-            [w, h, l],
-            [w, -h, l],
+            [w, h, l1],
+            [w, -h, l1],
             [-w, -h, l],
-            [-w, h, l],
-            [w, h, -l],
-            [w, -h, -l],
+            [-w, h, l3],
+            [w, h, -l2],
+            [w, -h, -l2],
             [-w, -h, -l],
-            [-w, h, -l],
+            [-w, h, -l3],
         ];
     }
 
