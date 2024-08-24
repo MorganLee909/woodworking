@@ -17,7 +17,7 @@ app.get("/three.js", (req, res)=>res.sendFile(`${__dirname}/threejs/three.min.js
 app.get("/orbit-controls.js", (req, res)=>res.sendFile(`${__dirname}/threejs/orbitControls.min.js`));
 app.get("/css-2d-renderer.js", (req, res)=>res.sendFile(`${__dirname}/threejs/CSS2DRenderer.min.js`));
 
-app.get("/image/workbench.webp", (req, res)=>res.sendFile(`${views}/image/workbench.webp`));
+app.get("/image/:img", (req, res)=>res.sendFile(`${views}/image/${req.params.img}`));
 
 app.get("/objects/setup.js", (req, res)=>res.sendFile(`${views}/objects/setup.js`));
 app.get("/objects/board.js", (req, res)=>res.sendFile(`${views}/objects/Board.js`));

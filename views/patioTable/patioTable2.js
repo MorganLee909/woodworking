@@ -6,8 +6,8 @@ const boards = [];
 
 createLegs();
 createTop();
-//createBorder();
-//createInnerSupport();
+createBorder();
+createInnerSupport();
 
 function createLegs(){
     let legs = [];
@@ -67,11 +67,11 @@ function createTop(){
     board12.translate(3, 16, 0);
     board12.rotate(0, 0, 90);
 
-    /*const geometry = new three.CylinderGeometry(1, 1, 64, 32);
+    const geometry = new three.CylinderGeometry(1, 1, 64, 32);
     const material = new three.MeshBasicMaterial({color: 0xffffff});
     const cylinder = new three.Mesh(geometry, material);
     cylinder.position.y += 16;
-    scene.add(cylinder);*/
+    scene.add(cylinder);
 }
 
 function createBorder(){
