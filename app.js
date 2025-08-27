@@ -22,8 +22,4 @@ app.get("/image/:img", (req, res)=>res.sendFile(`${views}/image/${req.params.img
 app.get("/objects/setup.js", (req, res)=>res.sendFile(`${views}/objects/setup.js`));
 app.get("/objects/board.js", (req, res)=>res.sendFile(`${views}/objects/Board.js`));
 
-if(process.env.NODE_ENV === "production"){
-    module.exports = app;
-}else{
-    app.listen(process.env.PORT);
-}
+app.listen(process.env.PORT);
